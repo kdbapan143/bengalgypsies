@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    
+    <title>Bengal Gypsies</title>
+    <style>
+        html{
+            scroll-behavior: smooth;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .slider {
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            width: 100%;
+        }
+        .slides img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+        .text-overlay {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(5, 85, 235, 0.7);
+            z-index: 2;
+        }
+        .text-overlay1 {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(162, 5, 235, 0.7);
+            z-index: 2;
+        }
+        .nav-container {
+            position: absolute;
+            top: 5%;
+            right: 5%;
+            z-index: 3;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+
+        .upcoming-trips {
+            text-align: center;
+            padding: 50px 20px;
+            background: #f5f5f5;
+        }
+        .upcoming-trips h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .trip-leaflet {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .trip-leaflet img {
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+
+        .we-offer {
+            text-align: center;
+            padding: 50px 20px;
+            background: #e0e0e0;
+        }
+        .we-offer h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .offer-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .offer-box {
+            width: 30%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .offer-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .offer-box h3 {
+            margin: 15px 0;
+            font-size: 1.5em;
+        }
+        .gallery {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .gallery h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .about-us {
+            display: flex;
+            align-items: center;
+            padding: 50px 20px;
+            background: #f5f5f5;
+        }
+        .about-us img {
+            width: 40%;
+            height: auto;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .about-content {
+            width: 60%;
+        }
+        .about-content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .about-content p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .successful-trips, .our-branches {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #f5f5f5, #ddd);
+        }
+        .successful-trips h2, .our-branches h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #333;
+        }
+        .trip-section, .branch-section {
+            margin-bottom: 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+        }
+        .trip-section h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .trip-gallery, .branch-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        .trip-gallery img, .branch-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            
+            transition: transform 0.3s ease;
+        }
+        .trip-gallery img:hover, .branch-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .contact-us {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, #e0e0e0, #ccc);
+        }
+        .contact-us h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .contact-form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+        }
+        .contact-form label {
+            font-size: 1.2em;
+            display: block;
+            margin: 10px 0 5px;
+            color: #444;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .contact-form button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .contact-form button:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+        .branch-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .branch-section {
+            width: 22%;
+            text-align: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .branch-section:hover {
+            transform: scale(1.05);
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        .branch-section img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .branch-section p {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        footer {
+        background: #222;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        position: relative;
+    }
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 20px;
+        border-bottom: 2px solid gray;
+    }
+    .footer-left, .footer-right {
+        flex: 1;
+        min-width: 250px;
+    }
+    .footer-left h3 {
+        margin-bottom: 5px;
+        font-size: 1.8em;
+        color: #ff6600;
+    }
+    .footer-left p {
+        font-size: 1.1em;
+    }
+    .footer-right {
+        text-align: right;
+    }
+    .footer-right p {
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+    .footer-right a {
+        color: white;
+        margin: 0 15px;
+        font-size: 1.5em;
+        text-decoration: none;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .footer-right a:hover {
+        color: #ff6600;
+        transform: scale(1.2);
+    }
+    .footer-bottom {
+        margin-top: 20px;
+        padding-top: 15px;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    </style>
+   
+</head>
+<body>
+    <div class="slider">
+        <div class="nav-container">
+            <nav>
+                <a href="home.html">Home</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+        <h1 class="text-overlay">Bengal Gypsies</h1>
+        <h1 class="text-overlay1">Travel the world with us</h1>
+        <div class="slides">
+            <img src="travel/rajasthan.jpg" alt="Slide 1">
+        </div>
+    </div>
+    
+    <section class="upcoming-trips">
+        <h2>Upcoming Trips</h2>
+        <div class="trip-leaflet">
+            <img src="travel/advertisement.png" alt="Trip 1" onclick="openLightbox(this)">
+            <img src="travel/advertisement.png" alt="Trip 2" onclick="openLightbox(this)">
+            <img src="travel/advertisement.png" alt="Trip 3" onclick="openLightbox(this)">
+            <img src="travel/advertisement.png" alt="Trip 4" onclick="openLightbox(this)">
+             
+        </div>
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <span class="close">&times;</span>
+            <img id="lightbox-img">
+        </div>
+        
+        <script>
+            function openLightbox(img) {
+                document.getElementById("lightbox-img").src = img.src;
+                document.getElementById("lightbox").style.display = "flex";
+            }
+            function closeLightbox() {
+                document.getElementById("lightbox").style.display = "none";
+            }
+        </script>
+    </section>
+    
+    <section class="we-offer">
+        <h2>We Offer</h2>
+        <div class="offer-container">
+            <div class="offer-box">
+                <img src="travel/couple_tour.jpg" alt="Couple Tour">
+                <h3>Customized Personal Tour</h3>
+                <p>Enjoy a romantic getaway with your loved one at the most beautiful destinations.</p>
+            </div>
+            <div class="offer-box">
+                <img src="travel/group_tour.png" alt="Group Tour">
+                <h3>Group Tour</h3>
+                <p>Explore new places with your friends and family in a fun and adventurous way.</p>
+            </div>
+            <div class="offer-box">
+                <img src="travel/trekking.jpeg" alt="Trekking & Camping">
+                <h3>Trekking & Camping</h3>
+                <p>Experience the thrill of trekking and camping in nature’s lap.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-container">
+            <img src="travel/pic1.jpeg" alt="Gallery Image 1" onclick="openLightbox(this)">
+            <img src="travel/pic2.jpeg" alt="Gallery Image 2" onclick="openLightbox(this)">
+            <img src="travel/pic3.jpeg" alt="Gallery Image 3" onclick="openLightbox(this)">
+            <img src="travel/pic4.jpg" alt="Gallery Image 4" onclick="openLightbox(this)">
+        </div>
+    </section>
+    <section id="about" class="about-us">
+        <img src="travel/logo.jpeg" alt="Company Image">
+        <div class="about-content">
+            <h2>About Us</h2>
+            <p>Bengal Gypsies is a premier travel agency dedicated to providing unforgettable travel experiences. Our mission is to bring the world closer to travelers by offering well-curated trips that cater to different travel styles. Whether it's an adventurous trek in the mountains, a romantic getaway, or a fun group expedition, we ensure every journey is safe, enjoyable, and filled with cherished memories.</p>
+            <p>We pride ourselves on our deep knowledge of travel destinations, customer-centric approach, and seamless execution. Our team of expert travel planners ensures that every trip is well-organized, offering the best accommodations, transport, and experiences. Bengal Gypsies focuses on making travel hassle-free and accessible, so our clients can focus on making memories.</p>
+            <p>Join us in exploring the beauty of the world. Whether you're a solo traveler, a couple, a family, or a group of friends, we have something for everyone. At Bengal Gypsies, we believe that every journey should be an experience of a lifetime.</p>
+        </div>
+    </section>
+    <section class="successful-trips">
+        <h2>Our Successful Trips</h2>
+        
+        <div class="trip-section">
+            <h3>North Sikkim</h3>
+            <div class="trip-gallery">
+                <img src="travel/Kedar-.jpg" alt="North Sikkim Trip 1">
+                <img src="travel/Kedar-.jpeg" alt="North Sikkim Trip 2">
+                <img src="travel/Kedar2.jpg" alt="North Sikkim Trip 3">
+                <img src="travel/Keda-4.jpeg" alt="North Sikkim Trip 4">
+            </div>
+        </div>
+
+        <div class="trip-section">
+            <h3>Kedarnath</h3>
+            <div class="trip-gallery">
+                <img src="travel/Kedar-1.jpg" alt="Kedarnath Trip 1">
+                <img src="travel/Kedar-3.jpeg" alt="Kedarnath Trip 2">
+                <img src="travel/Kedar-2.jpg" alt="Kedarnath Trip 3">
+                <img src="travel/Kedar-4.jpeg" alt="Kedarnath Trip 4">
+            </div>
+        </div>
+        
+        <div class="trip-section">
+            <h3>Himachal</h3>
+            <div class="trip-gallery">
+                <img src="travel/himachal1.jpg" alt="Himachal Trip 1">
+                <img src="travel/himachal2.jpg" alt="Himachal Trip 2">
+                <img src="travel/himachal3.jpg" alt="Himachal Trip 3">
+                <img src="travel/himachal4.jpg" alt="Himachal Trip 4">
+            </div>
+        </div>
+
+        <div class="trip-section">
+            <h3>Sandakphu</h3>
+            <div class="trip-gallery">
+                <img src="travel/Kear-1.jpg" alt="Sandakphu Trip 1">
+                <img src="travel/Kear-3.jpeg" alt="Sandakphu Trip 2">
+                <img src="travel/Kear-2.jpg" alt="Sandakphu Trip 3">
+                <img src="travel/Kear-4.jpeg" alt="Sandakphu Trip 4">
+            </div>
+        </div>
+
+        <div class="trip-section">
+            <h3>Darjeeling</h3>
+            <div class="trip-gallery">
+                <img src="travel/Ked-1.jpg" alt="Darjeeling Trip 1">
+                <img src="travel/Ked-3.jpeg" alt="Darjeeling Trip 2">
+                <img src="travel/Ked-2.jpg" alt="Darjeeling Trip 3">
+                <img src="travel/Ked-4.jpeg" alt="Darjeeling Trip 4">
+            </div>
+        </div>
+
+        <div class="trip-section">
+            <h3>New Delhi</h3>
+            <div class="trip-gallery">
+                <img src="travel/Kr-1.jpg" alt="New Delhi Trip 1">
+                <img src="travel/Kar-3.jpeg" alt="New Delhi Trip 2">
+                <img src="travel/Kar-2.jpg" alt="New Delhi Trip 3">
+                <img src="travel/Kdar-4.jpeg" alt="New Delhi Trip 4">
+            </div>
+        </div>
+
+        <div class="trip-section">
+            <h3>Amritsar</h3>
+            <div class="trip-gallery">
+                <img src="travel/Keda-1.jpg" alt="Amritsar Trip 1">
+                <img src="travel/Keda-3.jpeg" alt="Amritsar Trip 2">
+                <img src="travel/Keda-2.jpg" alt="Amritsar Trip 3">
+                <img src="travel/Keda.jpeg" alt="Amritsar Trip 4">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-us">
+        <h2>Contact Us</h2>
+        <form class="contact-form">
+            <label for="name">Name*</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="phone">Phone Number*</label>
+            <input type="tel" id="phone" name="phone" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            
+            <label for="query">Query*</label>
+            <textarea id="query" name="query" rows="4" required></textarea>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <section class="our-branches">
+        <h2>Our Branches</h2>
+        <div class="branch-gallery">
+            <div class="branch-section">
+                <img src="travel/Durgapur-branch.jpeg" alt="Branch 1">
+                <p><strong>Durgapur Branch</strong><br>Suman Kora(CEO) <br>Ph :- <br>Our main headquarters serving travelers across India.</p>
+            </div>
+            <div class="branch-section">
+                <img src="travel/Durgapur-branch.jpeg" alt="Branch 2">
+                <p><strong>Bankura Branch</strong><br>Santanu Patra(Branch Head) <br>Ph no :- <br>A hub for North India travel planning and adventures.</p>
+            </div>
+            <div class="branch-section">
+                <img src="travel/Durgapur-branch.jpeg" alt="Branch 3">
+                <p><strong>Andal Branch</strong><br>Suman Majhi(Co-Founder) <br>Ph no :- <br>Your gateway to South India and beyond.</p>
+            </div>
+            <div class="branch-section">
+                <img src="travel/Durgapur-branch.jpeg" alt="Branch 4">
+                <p><strong>Purba Medinipur Branch</strong><br>Tanmoy Maity(Branch Head) <br>Ph no :- <br>Connecting travelers to the Western Ghats and beaches.</p>
+            </div>
+        </div>
+    </section>
+   
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <h3>Bengal Gypsies</h3>
+                <p>Phone No. :- </p>
+                <p>Email: contact@bengalgypsies.com</p>
+                <p>Address :- Durgapur, West Bengal - 713212</p>
+            </div>
+            <div class="footer-right">
+                <p>Follow us on</p>
+                <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bengal Gypsies. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+       // Ensure page loads from the top
+window.history.scrollRestoration = "manual";
+window.scrollTo(0, 0);
+
+// Create and display the splash screen
+window.onload = function () {
+    // Create a new div element
+    let splashScreen = document.createElement("div");
+    splashScreen.style.position = "fixed";
+    splashScreen.style.top = "20%";
+    splashScreen.style.left = "20%";
+    splashScreen.style.width = "50%";
+    splashScreen.style.height = "50%";
+    splashScreen.style.background = "url('travel/Durgapur-branch.jpeg') no-repeat center center/cover";
+    splashScreen.style.zIndex = "9999";
+
+    // Append the splash screen to the body
+    document.body.appendChild(splashScreen);
+
+    // Remove the splash screen after 3 seconds
+    setTimeout(() => {
+        splashScreen.style.transition = "opacity 2s ease-out";
+        splashScreen.style.opacity = "0";
+        setTimeout(() => {
+            document.body.removeChild(splashScreen);
+        }, 1000); // Give time for the fade-out effect
+    }, 3000); // Display for 3 seconds
+};
+
+    </script>
+</body>
+</html>
