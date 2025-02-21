@@ -84,6 +84,16 @@
             text-shadow: 2px 2px 4px rgba(162, 5, 235, 0.7);
             z-index: 2;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .text-overlay1{
+               font-size: 2em;
+               top: 75%;
+               
+            }
+        }
+
         .nav-container {
             position: absolute;
             top: 5%;
@@ -106,6 +116,7 @@
             text-decoration: underline;
         }
 
+         
 
         .trip {
             text-align: center;
@@ -137,6 +148,15 @@
             max-width: 1200px;
             margin: auto;
         }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .trip-leaflet {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                max-width: fit-content;
+        }
+    }
+
         .trip-leaflet img {
             width: 100%;
             cursor: pointer;
@@ -182,6 +202,7 @@
             justify-content: space-around;
             flex-wrap: wrap;
         }
+        
         .offer-box {
             width: 30%;
             background: white;
@@ -200,6 +221,19 @@
             margin: 15px 0;
             font-size: 1.5em;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .offer-container{
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                max-width: fit-content;
+            }
+            .offer-box{
+                width: 100%;
+            }
+        }
+
         .gallery {
             text-align: center;
             padding: 50px 20px;
@@ -220,6 +254,13 @@
             object-fit: cover;
             cursor: pointer;
             border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+           .gallery-container {
+            grid-template-columns: repeat(1, 1fr);
+           }
         }
         .about-us {
             display: flex;
@@ -244,6 +285,21 @@
             font-size: 1.2em;
             line-height: 1.6;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-us{
+                flex-direction: column;
+                max-width: fit-content;
+            }
+            .about-us img{
+                width: 100%;
+            }
+            .about-content{
+                width: 100%;
+            }
+        }
+
         .successful-trips, .our-branches {
             text-align: center;
             padding: 50px 20px;
@@ -274,6 +330,14 @@
             gap: 15px;
             padding: 20px;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .trip-gallery{
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
         .trip-gallery img, .branch-gallery img {
             width: 100%;
             height: 200px;
@@ -366,6 +430,9 @@
             color: #555;
         }
 
+        
+
+
         footer {
         background: #222;
         color: white;
@@ -420,7 +487,38 @@
         font-size: 1em;
         font-weight: bold;
     }
+    @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .branch-gallery {
+                grid-template-columns: repeat(1, 1fr);
+        }
+        .branch-section {
+            width: 100%;
+            
+        }
+        
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let branches = document.querySelectorAll(".branch-section");
+            let index = 0;
+
+            function showNextBranch() {
+                branches.forEach(branch => branch.style.display = "none");
+                branches[index].style.display = "block";
+                index = (index + 1) % branches.length;
+                setTimeout(showNextBranch, 3000);
+            }
+
+            showNextBranch();
+        });
+    </script>
+    
    
 </head>
 <body>
